@@ -4,6 +4,8 @@ import rl "vendor:raylib"
 
 TILE_SIZE :: 16.0
 
+// A Texture atlas that contains every tile in the game.
+// Textures are stored in order that matches the tile's ID.
 Tileset :: struct {
     atlas:        rl.Texture2D,
     tile_indexes: [dynamic]rl.Rectangle,
@@ -43,7 +45,13 @@ tileset_new :: proc(path: cstring) -> Tileset {
     return tileset
 }
 
+tileset_delete :: proc(tileset: ^Tileset) {
+    rl.UnloadTexture(tileset.atlas)
+    delete(tileset.tile_indexes)
+}
 
+// Draws the specified tile.
+// The tile is sent to a sprite batch, that displays all of them at once.
 tileset_draw_tile :: proc(tileset: ^Tileset, tile_type: Tile, x: i64, y: i64) {
     if tile_type != .Air {
         rendered_tile := rl.Rectangle {
