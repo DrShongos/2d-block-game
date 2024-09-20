@@ -49,7 +49,7 @@ chunk_is_within_view :: proc(pos: Chunk_Pos, camera: ^World_Camera) -> bool {
     return(
         chunk_x < camera_bounds.x + camera_bounds.width &&
         chunk_x + CHUNK_WORLD_SIZE > camera_bounds.x &&
-        chunk_y < camera_bounds.x + camera_bounds.height &&
+        chunk_y < camera_bounds.y + camera_bounds.height &&
         chunk_y + CHUNK_WORLD_SIZE > camera_bounds.y \
     )
 }
@@ -94,27 +94,17 @@ world_new :: proc() -> World {
     rng := rand.create(transmute(u64)time.time_to_unix_nano(time.now()))
     context.random_generator = rand.default_random_generator(&rng)
 
-    // Generate a finite world filled with random blocks
-    for y in -CHUNK_LOADING_RADIUS ..< CHUNK_LOADING_RADIUS {
-        dx := i64(
-            math.floor(
-                math.sqrt(
-                    f32(CHUNK_LOADING_RADIUS * CHUNK_LOADING_RADIUS) -
-                    f32(y * y),
-                ),
-            ),
-        )
-        for x in -dx ..< dx {
-            world_gen_chunk(&loaded_chunks, {i64(x), i64(y)})
-        }
+    world := World {
+        loaded_chunks = loaded_chunks,
+        tileset       = tileset_new("assets/tileset.png"),
+        player        = create_player(),
+        camera        = camera_new(),
     }
 
-    return World {
-        loaded_chunks = loaded_chunks,
-        tileset = tileset_new("assets/tileset.png"),
-        player = create_player(),
-        camera = camera_new(),
-    }
+    // Generate new chunks at start
+    world_reload_chunks(&world)
+
+    return world
 }
 
 world_gen_chunk :: proc(chunk_storage: ^Chunk_Storage, pos: Chunk_Pos) {
