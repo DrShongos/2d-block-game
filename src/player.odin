@@ -47,29 +47,34 @@ camera_get_view_bounds :: proc(camera: ^World_Camera) -> rl.Rectangle {
 
 Player :: struct {
     position: rl.Vector2,
+    velocity: rl.Vector2,
     speed:    f32,
 }
 
 create_player :: proc() -> Player {
-    return Player{position = {0.0, 0.0}, speed = 128.0}
+    return Player{position = {0.0, 0.0}, velocity = {0.0, 0.0}, speed = 128.0}
 }
 
 player_update :: proc(player: ^Player, dt: f32) {
+    player.velocity = {0.0, 0.0}
     if rl.IsKeyDown(.W) {
-        player.position[1] -= 1.0 * player.speed * dt
+        player.velocity.y = -1.0
     }
 
     if rl.IsKeyDown(.S) {
-        player.position[1] += 1.0 * player.speed * dt
+        player.velocity.y = 1.0
     }
 
     if rl.IsKeyDown(.A) {
-        player.position[0] -= 1.0 * player.speed * dt
+        player.velocity.x = -1.0
     }
 
     if rl.IsKeyDown(.D) {
-        player.position[0] += 1.0 * player.speed * dt
+        player.velocity.x = 1.0
     }
+
+    vel_normalized := rl.Vector2Normalize(player.velocity)
+    player.position += vel_normalized * player.speed * dt
 }
 
 player_draw :: proc(player: ^Player) {
