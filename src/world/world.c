@@ -4,6 +4,7 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "uthash.h"
+#include "worldgen.h"
 #include <math.h>
 #include <time.h>
 #include <stdlib.h>
@@ -29,6 +30,7 @@ void world_create(world *new_world)
 
     srand(time(NULL));
 
+    worldgen_init(&new_world->worldgen, rand());
     world_gen_chunks(new_world);
 }
 
@@ -82,9 +84,7 @@ world_chunk *world_request_new_chunk(world *world, world_chunk_pos target_pos)
 world_chunk *world_gen_chunk(world *world, world_chunk_pos pos)
 {
     world_chunk *new_chunk = world_request_new_chunk(world, pos);
-    for (int y = 0; y < CHUNK_SIZE; y += 1)
-        for (int x = 0; x < CHUNK_SIZE; x += 1)
-            new_chunk->blocks[y][x] = rand() % (BLOCK_GRASS + 1);
+    worldgen_build_chunk(&world->worldgen, new_chunk);
 
     return new_chunk;
 }

@@ -24,10 +24,12 @@ endif()
 
 # Our Project
 add_subdirectory(third_party_libs/uthash)
+add_subdirectory(third_party_libs/FastNoiseLite)
+
 file(GLOB_RECURSE SOURCES src/*.c src/*/*.c src/*/*.h src/*.h)
 add_executable(${PROJECT_NAME} ${SOURCES})
 #set(raylib_VERBOSE 1)
-target_link_libraries(${PROJECT_NAME} raylib uthash)
+target_link_libraries(${PROJECT_NAME} raylib uthash FastNoiseLite)
 
 # Web Configurations
 if (${PLATFORM} STREQUAL "Web")

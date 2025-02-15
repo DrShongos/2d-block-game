@@ -1,6 +1,9 @@
 #include <raylib.h>
 #include <uthash.h>
 
+#define FNL_IMPL
+#include <FastNoiseLite.h>
+
 #include "world/chunk.h"
 #include "world/world.h"
 

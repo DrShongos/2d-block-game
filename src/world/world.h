@@ -6,6 +6,7 @@
 
 #include "../render/tileset.h"
 #include "../player.h"
+#include "worldgen.h"
 
 #define CHUNK_WORLD_SIZE (float)((float)CHUNK_SIZE * TILE_SIZE)
 #define CHUNK_LOAD_RADIUS 10
@@ -23,6 +24,8 @@ typedef struct {
 typedef struct {
     world_chunk_record *loaded_chunks;
     tileset main_tileset;
+
+    world_generator worldgen;
 
     Camera2D main_camera;
     player main_player;

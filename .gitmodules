@@ -1,3 +1,6 @@
 [submodule "third_party_libs/uthash/uthash"]
 	path = third_party_libs/uthash/uthash
 	url = git@github.com:troydhanson/uthash
+[submodule "third_party_libs/FastNoiseLite/FastNoiseLite"]
+	path = third_party_libs/FastNoiseLite/FastNoiseLite
+	url = git@github.com:Auburn/FastNoiseLite
