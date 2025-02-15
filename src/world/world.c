@@ -173,13 +173,27 @@ void world_gen_chunks(world *world)
         }
 }
 
-void world_update(world* world)
+// TODO: Move to a separate file later maybe??
+static void camera_update(world* world)
 {
-    player_update(&world->main_player);
     world->main_camera.target = world->main_player.position;
 
     float mouse_wheel = GetMouseWheelMove();
-    world->main_camera.zoom += mouse_wheel / 16.0;
+    float scroll_val = 0.0f;
+
+    if (mouse_wheel >= 0.1f) {
+        scroll_val = 0.1f;
+    } else if (mouse_wheel < 0.0f) {
+        scroll_val = -0.1f;
+    }
+    world->main_camera.zoom += scroll_val;
+    world->main_camera.zoom = Clamp(world->main_camera.zoom, CAMERA_MIN_ZOOM, CAMERA_MAX_ZOOM);
+}
+
+void world_update(world* world)
+{
+    player_update(&world->main_player);
+    camera_update(world);
 
     // Handle chunk updates and loading
     world_chunk_record *current_record, *tmp;

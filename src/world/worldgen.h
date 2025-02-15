@@ -12,3 +12,5 @@ typedef struct {
 void worldgen_init(world_generator *worldgen, int64_t seed);
 
 world_chunk *worldgen_build_chunk(world_generator *worldgen, world_chunk *chunk);
+
+float worldgen_get_terrain_y(world_generator* worldgen, float block_x);

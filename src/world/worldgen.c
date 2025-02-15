@@ -32,3 +32,5 @@ world_chunk *worldgen_build_chunk(world_generator *worldgen, world_chunk *chunk)
 
     return chunk;
 }
+
+float worldgen_get_terrain_y(world_generator* worldgen, float block_x);

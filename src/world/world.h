@@ -12,6 +12,9 @@
 #define CHUNK_LOAD_RADIUS 10
 #define CHUNK_MAX_PLR_DST (float)CHUNK_LOAD_RADIUS * CHUNK_WORLD_SIZE
 
+#define CAMERA_MIN_ZOOM 0.1f
+#define CAMERA_MAX_ZOOM 4.0f
+
 typedef struct {
     world_chunk_pos pos;
     world_chunk chunk;
